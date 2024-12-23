@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 import userRouter from "./routes/userRoute.js";
 import galleryItemRouter from "./routes/galleryItemRoute.js";
 import dotenv from "dotenv"
+import categoryRouter from "./routes/categoryRoutes.js";
 
 dotenv.config();
 
@@ -39,6 +40,7 @@ mongoose
 
 app.use("/api/user/", userRouter);
 app.use("/api/gallery", galleryItemRouter);
+app.use("/api/category", categoryRouter);
 
 app.listen(3000, () => {
   console.log("Express app Start...");

@@ -36,7 +36,7 @@ export function postUser(req, res) {
 export function loginUser(req, res) {
   const credentials = req.body;
 
-  User.findone({ email: credentials.email })
+  User.findOne({ email: credentials.email })
     .then((user) => {
       if (user == null) {
         res.status(404).json({
