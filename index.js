@@ -4,12 +4,14 @@ import mongoose from "mongoose";
 import jwt from "jsonwebtoken";
 import userRouter from "./routes/userRoute.js";
 import galleryItemRouter from "./routes/galleryItemRoute.js";
+import dotenv from "dotenv"
+
+dotenv.config();
 
 const app = express();
 app.use(bodyParser.json());
 
-const conectionString =
-  "mongodb+srv://tester1:1234@cluster0.g0ql7.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+const conectionString =process.env.MONGO_URL;
 
 app.use((req, res, next) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
@@ -17,7 +19,7 @@ app.use((req, res, next) => {
   if (!token) {
     return next();
   }
-  jwt.verify(token, "secret", (err, decoded) => {
+  jwt.verify(token, process.env.JWT_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ messge: "Invalid or expired token" });
     }

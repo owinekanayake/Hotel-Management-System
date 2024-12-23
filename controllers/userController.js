@@ -45,7 +45,7 @@ export function loginUser(req,res){
           type : user.type,
         };
 
-        const token = jwt.sign(payload,"secret",{expiresIn : "1h"})
+        const token = jwt.sign(payload,process.env.JWT_KEY,{expiresIn : "1h"})
 
         res.json({
           message : "User Found",
