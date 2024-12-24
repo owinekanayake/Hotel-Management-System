@@ -28,3 +28,30 @@ export function createCategory(req, res) {
       });
     });
 }
+
+export function deleteCategory(req, res) {
+  if (req.body.user == null) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+  if (req.body.user.type != "admin") {
+    res.status(403).json({
+      message: "Forbidden",
+    });
+    return;
+  }
+  const name = req.params.name;
+  Category.findOneAndDelete({ name: name })
+    .then(() => {
+      res.json({
+        message: "Category deleted successfully",
+      });
+    })
+    .catch(() => {
+      res.json({
+        message: "Category deletion faield",
+      });
+    });
+}
