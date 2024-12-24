@@ -69,3 +69,24 @@ export function getCategory(req, res) {
       });
     });
 }
+
+export function getCategoryByName(req, res) {
+  const name = req.params.name;
+  Category.findOne({ name: name })
+    .then((result) => {
+      if (result == null) {
+        res.json({
+          message: "Category not found",
+        });
+      } else {
+        res.json({
+          category: result,
+        });
+      }
+    })
+    .catch(() => {
+      res.json({
+        message: "Failed to get category",
+      });
+    });
+}
