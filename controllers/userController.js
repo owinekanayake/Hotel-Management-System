@@ -82,3 +82,13 @@ export function loginUser(req, res) {
       });
     });
 }
+
+export function isAdminValid(req){
+  if(req.body.user == null){
+    return false;
+  }
+  if(req.body.user.type != "admin"){
+    return false;
+  }
+  return true;
+}

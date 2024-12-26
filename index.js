@@ -6,6 +6,8 @@ import userRouter from "./routes/userRoute.js";
 import galleryItemRouter from "./routes/galleryItemRoute.js";
 import dotenv from "dotenv"
 import categoryRouter from "./routes/categoryRoutes.js";
+import roomRouter from "./routes/roomRoutes.js";
+import bookingRouter from "./routes/bookingRoutes.js";
 
 dotenv.config();
 
@@ -41,6 +43,8 @@ mongoose
 app.use("/api/user/", userRouter);
 app.use("/api/gallery", galleryItemRouter);
 app.use("/api/category", categoryRouter);
+app.use("/api/room", roomRouter);
+app.use("/api/bookings", bookingRouter);
 
 app.listen(3000, () => {
   console.log("Express app Start...");
