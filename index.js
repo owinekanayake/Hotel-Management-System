@@ -8,10 +8,12 @@ import dotenv from "dotenv"
 import categoryRouter from "./routes/categoryRoutes.js";
 import roomRouter from "./routes/roomRoutes.js";
 import bookingRouter from "./routes/bookingRoutes.js";
-
+import cors from 'cors'
 dotenv.config();
 
 const app = express();
+app.use(cors())
+
 app.use(bodyParser.json());
 
 const conectionString =process.env.MONGO_URL;
