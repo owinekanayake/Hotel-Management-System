@@ -83,6 +83,20 @@ export function loginUser(req, res) {
     });
 }
 
+export function getUser(req,res) {
+  const user = req.body.user;
+  if (user == null) {
+    res.json({
+      message : "User Not Found"
+    })
+  }else{
+    res.json({
+      message : " User Found",
+      user : user
+    })
+  }
+}
+
 export function isAdminValid(req){
   if(req.body.user == null){
     return false;
