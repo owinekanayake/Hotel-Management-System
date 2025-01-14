@@ -94,7 +94,7 @@ export function getCategoryByName(req, res) {
 
 export function updateCategory(req, res) {
   
-  if (isAdminValid(req)) {
+  if (!isAdminValid(req)) {
     return res.status(404).json({
       message: "Unauthorized"
     })
