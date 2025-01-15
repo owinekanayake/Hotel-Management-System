@@ -33,3 +33,30 @@ export function getGalleryItem(req, res) {
     });
   });
 }
+
+export function deleteGallaryItem(res,req){
+  if (req.body.user == null) {
+    res.status(401).json({
+      message: "Unauthorized",
+    });
+    return;
+  }
+  if (req.body.user.type != "admin") {
+    res.status(403).json({
+      message: "Forbidden",
+    });
+    return;
+  }
+  const name = req.params.name;
+  GalleryItem.findOneAndDelete({name:name})
+  .then(()=>{
+    res.json({
+      message:"GalleryItem deleted successfully"
+    });
+  })
+  .catch(()=>{
+    res.json({
+      message:"GalleryItem deletion failed"
+    })
+  })
+}
