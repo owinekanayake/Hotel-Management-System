@@ -5,6 +5,6 @@ const galleryItemRouter = express.Router()
 
 galleryItemRouter.post("/",createGalleryItem)
 galleryItemRouter.get("/", getGalleryItem)
-galleryItemRouter.delete("/name",deleteGallaryItem)
+galleryItemRouter.delete("/:name",deleteGallaryItem)
 
 export default galleryItemRouter;

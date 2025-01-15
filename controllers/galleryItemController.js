@@ -34,7 +34,7 @@ export function getGalleryItem(req, res) {
   });
 }
 
-export function deleteGallaryItem(res,req){
+export function deleteGallaryItem(req,res){
   if (req.body.user == null) {
     res.status(401).json({
       message: "Unauthorized",
