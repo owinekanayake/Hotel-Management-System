@@ -61,3 +61,11 @@ export default function getAllBooking(req,res){
     }
   )
 }
+
+export function retrieveBookingByDate(req,res){
+  const start = req.body.start
+  const end = req.body.end
+
+  console.log(start);
+  console.log(end);
+}
