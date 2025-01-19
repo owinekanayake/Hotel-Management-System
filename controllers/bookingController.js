@@ -68,10 +68,10 @@ export function retrieveBookingByDate(req,res){
 
   Booking.find({
     start: {
-      $gte : start
+      $gte : new Date(start)
     },
     end : {
-      $lt : end
+      $lt : new Date(end)
     }
   }).then(
     (result)=>{
