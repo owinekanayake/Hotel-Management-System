@@ -43,3 +43,21 @@ export function createBooking(req, res) {
     });
   });
 }
+
+export default function getAllBooking(req,res){
+  Booking.find().then(
+    (result)=>{
+      res.json({
+        message: "Booking fetched successfully",
+        result: result
+      })
+    }
+  ).catch(
+    (err)=>{
+      res.json({
+        message : "failed to get all booking",
+        error: err
+      })
+    }
+  )
+}
