@@ -66,6 +66,24 @@ export function retrieveBookingByDate(req,res){
   const start = req.body.start
   const end = req.body.end
 
-  console.log(start);
-  console.log(end);
+  Booking.find({
+    start: {
+      $gte : start
+    },
+    end : {
+      $lt : end
+    }
+  }).then(
+    (result)=>{
+      res.json({
+        message: "Booking fetched successfully",
+        result: result
+      })
+    }
+  ).catch((err)=>{
+    res.json({
+      message: "Failed to get booking",
+      error: err
+    })
+  })
 }
