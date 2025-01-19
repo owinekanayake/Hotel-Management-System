@@ -105,10 +105,10 @@ export function createBookingUsingCategory(req, res) {
         }
       }
     ],
-  }).then((res)=>{
+  }).then((result)=>{
     res.json({
-      message : "Booking created successfully",
-      result : res
+      message : "Booking already exist",
+      result : result
     })
   })
 }
