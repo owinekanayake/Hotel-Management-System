@@ -1,4 +1,5 @@
 import Booking from "../models/booking.js";
+import Room from "../models/room.js";
 import { isCustomerValid } from "./userController.js";
 
 export function createBooking(req, res) {
@@ -100,15 +101,64 @@ export function createBookingUsingCategory(req, res) {
       },
       {
         end: {
-          $gt : start,
-          $lte : end
-        }
-      }
+          $gt: start,
+          $lte: end,
+        },
+      },
     ],
-  }).then((result)=>{
-    res.json({
-      message : "Booking already exist",
-      result : result
-    })
-  })
+  }).then((result) => {
+    const overlapplingBooking = result;
+    const rooms = [];
+
+    for (let i = 0; i < overlapplingBooking.length; i++) {
+      rooms.push(overlapplingBooking[i].roomId);
+    }
+
+    Room.find({
+      roomId: {
+        $nin: rooms,
+      },
+      category: req.body.category,
+    }).then((room) => {
+      if (room.length == 0) {
+        res.json({
+          message: "No rooms available",
+        });
+      } else {
+        const startingId = 1200;
+
+        Booking.countDocuments({})
+          .then((count) => {
+            console.log(count);
+            const newId = startingId + count + 1;
+            const newBooking = new Booking({
+              bookingId: newId,
+              roomId: req.body.roomId,
+              email: req.body.user.email,
+              start: start,
+              end: end,
+            });
+            newBooking
+              .save()
+              .then((result) => {
+                res.json({
+                  message: "Booking created successfully",
+                  result: result,
+                });
+              })
+              .catch((err) => {
+                res.json({
+                  message: "Booking creation failed",
+                });
+              });
+          })
+          .catch((err) => {
+            res.json({
+              message: "Booking creation failed",
+              error: err,
+            });
+          });
+      }
+    });
+  });
 }
