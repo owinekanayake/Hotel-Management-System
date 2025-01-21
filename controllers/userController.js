@@ -118,3 +118,38 @@ export function isCustomerValid(req){
   }
   return true;
 }
+
+export function sendSampleEmail(req,res) {
+  const email = req.body.email;
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure : false,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD,
+    },
+  });
+
+  const massege = {
+    from : process.env.EMAIL,
+    to : email,
+    subject : "Sample Email",
+    text : "This is a sample email",
+  }
+
+  transporter.sendMail(massege, (err, info) => {
+    if(err){
+      res.json({
+        message : "Email not sent",
+        error : err
+      })
+    }else{
+      res.json({
+        message : "Email sent",
+        info : info
+      })
+    }
+  })
+}
