@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import bctypt from "bcrypt";
+import nodemailer from "nodemailer";
 
 export function postUser(req, res) {
   const user = req.body;
