@@ -119,8 +119,8 @@ export function isCustomerValid(req){
   return true;
 }
 
-export function sendSampleEmail(req,res) {
-  const email = req.body.email;
+export function sendSampleEmail(email,otp) {
+  
   const transporter = nodemailer.createTransport({
     service: "gmail",
     host: 'smtp.gmail.com',
@@ -141,15 +141,9 @@ export function sendSampleEmail(req,res) {
 
   transporter.sendMail(massege, (err, info) => {
     if(err){
-      res.json({
-        message : "Email not sent",
-        error : err
-      })
+      console.log(err);
     }else{
-      res.json({
-        message : "Email sent",
-        info : info
-      })
+      console.log(info);
     }
   })
 }
