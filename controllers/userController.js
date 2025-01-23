@@ -159,7 +159,7 @@ export function sendOtpEmail(email,otp) {
   })
 }
 
-export function validateUser(req,res){
+export function verifyUserEmail(req,res){
     
   const otp = req.body.otp;
   const email = req.body.email;
