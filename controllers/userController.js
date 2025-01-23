@@ -186,7 +186,7 @@ export function verifyUserEmail(req,res){
   })
 }
 
-export function getAllUsers(req,res) {
+export function getAllUsers(req, res) {
   if (!isAdminValid(req)) {
     res.status(403).json({
       message: "Forbidden",
@@ -194,18 +194,26 @@ export function getAllUsers(req,res) {
     return;
   }
 
-  User.find().then(
-    (users)=>{
+  const pageSize = parseInt(req.body.pageSize, 10) || 10; // Default page size: 10
+  const pageNumber = parseInt(req.body.pageNumber, 10) || 1; // Default page number: 1
+
+  const skip = (pageNumber - 1) * pageSize;
+
+  User.find()
+    .skip(skip) 
+    .limit(pageSize) 
+    .then((users) => {
       res.json({
-        message : "User Found",
-        users : users
-      })
-    }
-  ).catch(
-    (err)=> {
-      res.json({
-        message : "User Not Found"
-      })
-    }
-  )
+        message: "Users Found",
+        users: users,
+        pageNumber: pageNumber,
+        pageSize: pageSize,
+      });
+    })
+    .catch((err) => {
+      res.status(500).json({
+        message: "An error occurred while retrieving users",
+        error: err.message,
+      });
+    });
 }
