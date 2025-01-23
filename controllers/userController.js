@@ -158,3 +158,30 @@ export function sendOtpEmail(email,otp) {
     }
   })
 }
+
+export function validateUser(req,res){
+    
+  const otp = req.body.otp;
+  const email = req.body.email;
+
+  Otp.find({email : email}).sort({date : -1}).then((otpList)=>{
+    if(otpList.length == 0){
+      res.json({
+        message : "Otp is Invalid"
+      })
+    }else{
+      const latesOtp = otpList[0];
+      if(latesOtp.otp == otp){
+        User.findOneAndUpdate({email : email},{emailVerified : true}).then(()=>{
+          res.json({
+            message : "User email verified success fully"
+          })
+        });
+      }else{
+        res.json({
+          message : "Otp is invaid"
+        })
+      }
+    }
+  })
+}
