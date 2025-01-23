@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import jwt from "jsonwebtoken";
 import bctypt from "bcrypt";
 import nodemailer from "nodemailer";
+import Otp from "../models/otp.js";
 
 export function postUser(req, res) {
   const user = req.body;
@@ -14,9 +15,19 @@ export function postUser(req, res) {
   newUser
     .save()
     .then(() => {
-      res.json({
-        message: "User Created Successfully",
-      });
+      const otp = Math.floor(1000 + Math.random() * 9000);
+      
+      const newOtp = new Otp({
+        email : user.email,
+        otp : otp
+      })
+    
+      newOtp.save().then(()=>{
+        sendOtpEmail(user.email,otp);
+        res.json({
+          message: "User Created Successfully",
+        });
+      })
     })
     .catch((err) => {
       if (err.code === 11000) {
@@ -119,7 +130,7 @@ export function isCustomerValid(req){
   return true;
 }
 
-export function sendSampleEmail(email,otp) {
+export function sendOtpEmail(email,otp) {
   
   const transporter = nodemailer.createTransport({
     service: "gmail",
@@ -135,8 +146,8 @@ export function sendSampleEmail(email,otp) {
   const massege = {
     from : process.env.EMAIL,
     to : email,
-    subject : "Sample Email",
-    text : "This is a sample email",
+    subject : "Validating OTP",
+    text : "Your otp is" + otp,
   }
 
   transporter.sendMail(massege, (err, info) => {
