@@ -185,3 +185,27 @@ export function verifyUserEmail(req,res){
     }
   })
 }
+
+export function getAllUsers(req,res) {
+  if (!isAdminValid(req)) {
+    res.status(403).json({
+      message: "Forbidden",
+    });
+    return;
+  }
+
+  User.find().then(
+    (users)=>{
+      res.json({
+        message : "User Found",
+        users : users
+      })
+    }
+  ).catch(
+    (err)=> {
+      res.json({
+        message : "User Not Found"
+      })
+    }
+  )
+}
